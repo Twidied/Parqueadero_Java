@@ -1,24 +1,25 @@
 package com.diego;
 
-import com.diego.chain_responsability.Cajero;
-import com.diego.chain_responsability.Gerente;
-import com.diego.chain_responsability.Supervisor;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.diego.command.Comando;
+import com.diego.command.ComandoIngreso;
+import com.diego.command.ComandoSalida;
+import com.diego.command.Talanquera;
 
 public class Main {
+
     public static void main(String[] args) {
+        Talanquera talanquera = new Talanquera();
 
-        Cajero cajero = new Cajero();
-        Gerente gerente = new Gerente();
-        Supervisor supervisor = new Supervisor();
+        List<Comando> steps = new ArrayList<>();
+        steps.add(new ComandoIngreso(talanquera));
+        steps.add(new ComandoSalida(talanquera));
 
-        cajero.setSiguiente(superv);
-        superv.setSiguiente(gerente);
-
-        cajero.aprobarDescuento(10); //Cajero
-        cajero.aprobarDescuento(35); //Gerente
-        cajero.aprobarDescuento(22); //Supervisor
-
-        supervisor.aprobarDescuento(35); // ne mede :c
-        
+        for (Comando comando : steps) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~");
+            comando.ejecutar();
+        }
     }
 }
